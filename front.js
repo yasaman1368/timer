@@ -3,35 +3,33 @@ const audioEye = document.querySelector('.eye-1');
 const audioRest = document.querySelector('.rest-10');
 const startBtn = document.querySelector('.start-timer');
 const downCount20 = document.querySelector('.downcount-20');
-const downCount40 = document.querySelector('.downcount-40');
 const resetTimer = document.querySelector('.reset-timer');
 const resetDiv = document.querySelector('.reset-div');
-const pauseTimer = document.querySelector('.pause-timer');
+
 let levelOne = 1200;
 let timerInterval;
-let workTime = localStorage.getItem('workTime') || 0;
-let workTimeDiv = workTime.toString().padStart(2, '0');
-resetDiv.innerHTML = workTimeDiv;
+let workTime = parseInt(localStorage.getItem('workTime')) || 0;
+let startFlag = true;
+console.log(localStorage.getItem('timerValue'));
 
+resetDiv.innerHTML = workTime.toString().padStart(2, '0');
 
+function timer(timerValue) {
 
-
-
-function timer() {
+    timerValue = parseInt(timerValue);
     audioRest.pause();
-    let timerValue = 2460;
-    levelOne = 1200;
-    downCount20.innerHTML = levelOne;
-
+    downCount20.innerHTML = timerValue;
 
     clearInterval(timerInterval);
     timerInterval = setInterval(() => {
         timerValue--;
         levelOne--;
-        downCount20.innerHTML = levelOne;
+
+        downCount20.innerHTML = timerValue;
 
         if (timerValue === 0) {
             audioRest.play();
+            localStorage.removeItem('timerValue');
             clearInterval(timerInterval);
         } else if (timerValue > 1200 && timerValue <= 1260) {
             audioEye.play();
@@ -41,27 +39,32 @@ function timer() {
             localStorage.setItem('workTime', workTime);
             resetDiv.innerHTML = workTime.toString().padStart(2, '0');
         }
+
+        currentTime = timerValue;
+        localStorage.setItem('timerValue', timerValue);
     }, 1000);
 }
 
 function reset() {
+    clearInterval(timerInterval);
     localStorage.removeItem('workTime');
+    localStorage.removeItem('timerValue');
     workTime = 0;
     resetDiv.innerHTML = workTime.toString().padStart(2, '0');
 }
-function pause() {
-    clearInterval(timerInterval);
-    let pauseFlag = true
 
-    if (pauseFlag) {
-
+function pauseTimerLL() {
+    if (startFlag) {
+        startFlag = false;
+        let currentTime = localStorage.getItem('timerValue') === null ? 2460 : localStorage.getItem('timerValue');
+        timer(currentTime);
+        console.log('run :', startFlag, '--', currentTime);
     } else {
-
+        startFlag = true;
+        clearInterval(timerInterval);
+        console.log('pause: ', startFlag);
     }
-
-
 }
 
-startBtn.addEventListener('click', timer);
+startBtn.addEventListener('click', pauseTimerLL);
 resetTimer.addEventListener('click', reset);
-pauseTimer.addEventListener('click', pause)

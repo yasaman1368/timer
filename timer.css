@@ -7,3 +7,24 @@ body {
     background-color: rgb(74, 74, 74);
     height: 20em;
 }
+
+.downcount-20 {
+    font-size: xx-large;
+    height: 80px;
+    display: flex;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    justify-content: center;
+    align-content: stretch;
+    align-items: center;
+    margin-bottom: 60px;
+}
+
+.st-div {
+    display: inline !important;
+}
+
+.reset-div {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
