@@ -1,0 +1,9 @@
+body {
+    background-color: black !important;
+
+}
+
+.my-timer {
+    background-color: rgb(74, 74, 74);
+    height: 20em;
+}
